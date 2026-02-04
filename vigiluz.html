@@ -1,0 +1,97 @@
+<style>
+    /* NUEVA LÍNEA DE TIEMPO MAESTRA */
+    .master-timeline-container {
+        background: var(--secondary);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .timeline-track {
+        height: 12px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 6px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .timeline-progress {
+        height: 100%;
+        width: 0%; /* Se calcula por JS */
+        transition: width 1s ease, background 0.5s ease;
+    }
+
+    .timeline-marker {
+        position: absolute;
+        top: -5px;
+        width: 2px;
+        height: 22px;
+        background: white;
+        box-shadow: 0 0 10px white;
+    }
+
+    /* BADGES DE FECHA MEJORADOS */
+    .date-badge {
+        padding: 4px 8px;
+        background: rgba(0,0,0,0.3);
+        border-radius: 4px;
+        font-size: 0.75rem;
+        border: 1px solid var(--border);
+        display: inline-block;
+    }
+</style>
+
+<div class="master-timeline-container">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+        <span class="metric-label">Línea de Tiempo del Proyecto</span>
+        <span id="time-percentage" style="font-family: 'Space Mono'; color: var(--accent);">0% Tiempo Transcurrido</span>
+    </div>
+    <div class="timeline-track">
+        <div id="master-timeline-fill" class="timeline-progress"></div>
+        <div id="today-marker" class="timeline-marker"></div>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.7rem; color: var(--text-muted);">
+        <span id="label-start">Inicio</span>
+        <span id="label-end">Deadline</span>
+    </div>
+</div>
+
+<script>
+    // --- Lógica de Salud del Proyecto (Semaforización) ---
+    function updateMasterTimeline() {
+        const start = new Date(projectData.projectStart);
+        const end = new Date(projectData.projectEnd);
+        const now = new Date();
+
+        const totalDuration = end - start;
+        const elapsed = now - start;
+        const timePercent = Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
+
+        // Obtener progreso de tareas
+        let totalTasks = 0, completed = 0;
+        Object.values(projectData.blocks).forEach(b => {
+            totalTasks += b.tasks.length;
+            completed += b.tasks.filter(t => t.status === 'completed').length;
+        });
+        const taskPercent = (completed / totalTasks) * 100;
+
+        const fill = document.getElementById('master-timeline-fill');
+        fill.style.width = timePercent + '%';
+        
+        // SEMAFORIZACIÓN: Si el tiempo transcurrido es mayor al progreso de tareas -> ROJO
+        if (timePercent > taskPercent + 10) {
+            fill.style.background = 'var(--danger)';
+            fill.style.boxShadow = '0 0 15px var(--danger)';
+        } else {
+            fill.style.background = 'var(--success)';
+            fill.style.boxShadow = '0 0 15px var(--success)';
+        }
+
+        document.getElementById('time-percentage').textContent = Math.round(timePercent) + '% Tiempo Transcurrido';
+        document.getElementById('label-start').textContent = start.toLocaleDateString();
+        document.getElementById('label-end').textContent = end.toLocaleDateString();
+    }
+
+    // Llama a esta función dentro de tu función saveData() o updateMetrics()
+</script>
