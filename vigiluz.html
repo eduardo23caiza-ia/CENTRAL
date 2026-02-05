@@ -287,6 +287,81 @@
         renderActivities();
     }
 
+    // 5. LA FUNCIÓN QUE DIBUJA TODO EN LA PANTALLA
+    function renderActivities() {
+        // Limpiamos todos los contenedores antes de volver a dibujar
+        const blocks = ['A', 'B', 'C', 'D'];
+        blocks.forEach(id => {
+            document.getElementById('content-' + id).innerHTML = '';
+        });
+
+        let totalVerdes = 0;
+        const today = new Date().toISOString().split('T')[0];
+
+        activities.forEach(task => {
+            // Decidir el color del semáforo
+            let semaforoClass = 'border-yellow'; // Desarrollo
+            if (task.status === 'cumplida') {
+                semaforoClass = 'border-green';
+                totalVerdes++;
+            } else if (task.status === 'pendiente' && today > task.end) {
+                semaforoClass = 'border-red'; // Roja Pendiente
+            }
+
+            // Crear el botón de eliminar (solo si el modo edición está ON)
+            const deleteBtn = editMode 
+                ? `<button onclick="deleteTask(${task.id})" style="background:none; border:none; color:#ff3366; cursor:pointer; font-size:1.2rem;">🗑️</button>` 
+                : '';
+
+            // Construir la tarjeta de la actividad
+            const cardHTML = `
+                <div class="activity-card ${semaforoClass}" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); margin-bottom: 8px; padding: 10px; border-radius: 8px;">
+                    <div>
+                        <div style="font-weight: bold; font-size: 0.9rem;">${task.name}</div>
+                        <div style="font-size: 0.7rem; color: #888;">${task.start} | ${task.end}</div>
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <select onchange="updateStatus(${task.id}, this.value)" style="font-size: 0.7rem; padding: 3px;">
+                            <option value="pendiente" ${task.status === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+                            <option value="desarrollo" ${task.status === 'desarrollo' ? 'selected' : ''}>Desarrollo</option>
+                            <option value="cumplida" ${task.status === 'cumplida' ? 'selected' : ''}>Cumplida</option>
+                        </select>
+                        ${deleteBtn}
+                    </div>
+                </div>
+            `;
+
+            // Inyectar la tarjeta en su bloque correspondiente
+            const container = document.getElementById('content-' + task.block);
+            if (container) container.innerHTML += cardHTML;
+        });
+
+        // Actualizar la Barra de Progreso Maestra
+        const total = activities.length;
+        const porcentaje = total > 0 ? Math.round((totalVerdes / total) * 100) : 0;
+        document.getElementById('global-percent').innerText = porcentaje + '%';
+        document.getElementById('global-fill').style.width = porcentaje + '%';
+    }
+
+    // FUNCIÓN PARA ACTUALIZAR ESTADO
+    function updateStatus(id, newStatus) {
+        const task = activities.find(t => t.id === id);
+        if (task) {
+            task.status = newStatus;
+            saveAndRender();
+        }
+    }
+
+    // FUNCIÓN PARA ELIMINAR CON CONFIRMACIÓN
+    function deleteTask(id) {
+        if (confirm("¿Seguro que quieres eliminar esta actividad?")) {
+            activities = activities.filter(t => t.id !== id);
+            saveAndRender();
+        }
+    }
+
+    // EJECUTAR AL CARGAR LA PÁGINA PARA MOSTRAR DATOS GUARDADOS
+    renderActivities();
     
 </script>
 </body>
