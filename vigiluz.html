@@ -226,6 +226,68 @@
             icon.innerText = '➖';
         }
     }
+    // VARIABLES GLOBALES (El cerebro que recuerda cosas)
+    let editMode = false;
+    let activities = JSON.parse(localStorage.getItem('vigiluz_data')) || [];
+
+    // 1. FUNCIÓN PARA MOSTRAR/OCULTAR EL PANEL DE CARGA MASIVA
+    function toggleMassiveLoad() {
+        const panel = document.getElementById('massive-container');
+        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // 2. FUNCIÓN PARA ACTIVAR/DESACTIVAR EL MODO EDICIÓN
+    function toggleEditMode() {
+        editMode = !editMode; // Cambia de true a false o viceversa
+        const btn = document.getElementById('edit-mode-btn');
+        
+        if (editMode) {
+            btn.innerText = '🔒 MODO EDICIÓN: ON';
+            btn.classList.add('edit-active');
+            alert("Modo Edición Activado: Ahora podrás eliminar actividades.");
+        } else {
+            btn.innerText = '🔓 MODO EDICIÓN: OFF';
+            btn.classList.remove('edit-active');
+        }
+        renderActivities(); // Refrescamos la vista para mostrar/ocultar botes de basura
+    }
+
+    // 3. FUNCIÓN PARA PROCESAR EL TEXTO MASIVO (EL "SPLIT" CON GUION)
+    function processMassiveLoad() {
+        const text = document.getElementById('massive-text').value;
+        if (!text.trim()) return alert("El campo está vacío");
+
+        const lines = text.split('\n'); // Cortamos por cada línea de texto
+        
+        lines.forEach(line => {
+            const parts = line.split('-').map(p => p.trim());
+            // Si la línea tiene los 4 datos: Nombre - Bloque - Inicio - Fin
+            if (parts.length >= 4) {
+                const newTask = {
+                    id: Date.now() + Math.random(),
+                    name: parts[0],
+                    block: parts[1].toUpperCase(), // Convierte a A, B, C o D
+                    start: parts[2],
+                    end: parts[3],
+                    status: 'pendiente'
+                };
+                activities.push(newTask);
+            }
+        });
+
+        saveAndRender();
+        document.getElementById('massive-text').value = ''; // Limpiar el cuadro
+        toggleMassiveLoad(); // Cerrar el panel
+        alert("Carga completada con éxito.");
+    }
+
+    // 4. GUARDAR Y REFRESCAR (EL "MOTOR" QUE DIBUJA TODO)
+    function saveAndRender() {
+        localStorage.setItem('vigiluz_data', JSON.stringify(activities));
+        renderActivities();
+    }
+
+    
 </script>
 </body>
     
