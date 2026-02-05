@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIGILUZ - Dashboard Operativo</title>
+    <title>VIGILUZ - Dashboard Maestro</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&family=Work+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #0a0e27;
             --card: #1a1f3a;
             --accent: #00ff88; /* Verde Neón */
-            --warning: #ffaa00; /* Amarillo */
             --danger: #ff3366; /* Rojo */
             --text: #e8eaed;
             --border: #2d3250;
@@ -26,212 +25,95 @@
 
         .container { max-width: 900px; margin: 0 auto; }
 
-        /* 1. LÍNEA DE TIEMPO MAESTRA */
-        .master-timeline {
+        /* ESTILO DEL ENCABEZADO UNIVERSAL */
+        .universal-header {
             background: var(--card);
             border: 1px solid var(--border);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .track {
-            height: 12px;
-            background: #000;
-            border-radius: 6px;
-            position: relative;
-            margin: 15px 0;
-            overflow: hidden;
-        }
-
-        .fill {
-            height: 100%;
-            width: 0%; /* Se calcula automáticamente */
-            background: linear-gradient(90deg, var(--accent), #00ccff);
-            box-shadow: 0 0 10px var(--accent);
-            transition: width 1s ease;
-        }
-
-        /* 2. FORMULARIO DESPLEGABLE */
-        .btn-toggle {
-            background: var(--accent);
-            color: var(--bg);
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
             margin-bottom: 20px;
         }
 
-        #task-form {
-            display: none;
-            background: var(--card);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            border: 1px solid var(--accent);
-        }
-
-        /* 3. BLOQUES DE ACTIVIDADES */
-        .section-title {
-            color: var(--accent);
+        .title-container h1 {
             font-family: 'Space Mono', monospace;
-            border-bottom: 1px solid var(--border);
-            margin: 30px 0 15px;
-            padding-bottom: 5px;
+            font-size: 2rem;
+            margin: 0;
+            letter-spacing: 2px;
         }
 
-        .activity-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
+        .progress-info {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
         }
 
-        /* Lógica de colores de borde */
-        .border-red { border-left: 5px solid var(--danger); }
-        .border-yellow { border-left: 5px solid var(--warning); }
-        .border-green { border-left: 5px solid var(--accent); }
-
-        .date-box {
-            font-size: 0.75rem;
-            color: #9aa0a6;
+        .progress-track {
+            height: 16px;
             background: #000;
-            padding: 4px 8px;
-            border-radius: 4px;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
         }
 
-        select {
-            background: #000;
-            color: #fff;
-            border: 1px solid var(--border);
-            padding: 5px;
-            border-radius: 4px;
+        .progress-fill {
+            height: 100%;
+            width: 0%; /* Se moverá con JavaScript */
+            background: linear-gradient(90deg, var(--accent), #00ccff);
+            box-shadow: 0 0 15px var(--accent);
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        .dates-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #8b949e;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .highlight { color: var(--accent); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1 style="font-family: 'Space Mono'; text-align: center;">⚡ VIGILUZ CONTROL</h1>
-
-    <div class="master-timeline">
-        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
-            <span>Progreso de Cumplimiento (Basado en tareas verdes)</span>
-            <span id="progreso-total">0%</span>
+    <header class="universal-header">
+        <div class="title-container">
+            <span style="font-size: 2rem;">⚡</span>
+            <h1>VIGILUZ CONTROL</h1>
         </div>
-        <div class="track"><div id="main-fill" class="fill"></div></div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #888;">
-            <span>Inicio: 04/Feb</span>
-            <span id="status-alerta">Evaluando tiempo...</span>
-            <span>Cierre: 28/Feb</span>
-        </div>
-    </div>
 
-    <button class="btn-toggle" onclick="toggleForm()">+ AGREGAR NUEVA ACTIVIDAD</button>
-
-    <div id="task-form">
-        <input type="text" id="taskName" placeholder="Nombre de la actividad" style="width: 95%; padding: 10px; margin-bottom: 10px; background: #000; color: #fff; border: 1px solid var(--border);">
-        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-            <input type="date" id="taskStart" style="flex: 1; background: #000; color: #fff; border: 1px solid var(--border);">
-            <input type="date" id="taskEnd" style="flex: 1; background: #000; color: #fff; border: 1px solid var(--border);">
+        <div class="progress-info">
+            <span>Progreso de Cumplimiento <small>(Basado en tareas verdes)</small></span>
+            <span id="global-percent" class="highlight">0%</span>
         </div>
-        <button class="btn-toggle" onclick="addTask()">GUARDAR ACTIVIDAD</button>
-    </div>
 
-    <div id="activities-container">
+        <div class="progress-track">
+            <div id="global-fill" class="progress-fill"></div>
         </div>
+
+        <div class="dates-bar">
+            <span>Inicio: <span class="highlight">04/Feb</span></span>
+            <span id="time-status">Evaluando tiempo...</span>
+            <span>Cierre: <span class="highlight">28/Feb</span></span>
+        </div>
+    </header>
+
+    <div id="next-sections"></div>
+
 </div>
 
-<script>
-    // CEREBRO DEL SISTEMA
-    let activities = JSON.parse(localStorage.getItem('vigiluz_data')) || [
-        { id: 1, name: "A1. Decisión de plataforma", start: "2026-02-04", end: "2026-02-06", status: "pendiente" },
-        { id: 2, name: "A3. Costeo total", start: "2026-02-04", end: "2026-02-07", status: "desarrollo" }
-    ];
-
-    function toggleForm() {
-        const f = document.getElementById('task-form');
-        f.style.display = f.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function addTask() {
-        const name = document.getElementById('taskName').value;
-        const start = document.getElementById('taskStart').value;
-        const end = document.getElementById('taskEnd').value;
-
-        if(!name || !end) return alert("Faltan datos");
-
-        activities.push({ id: Date.now(), name, start, end, status: "pendiente" });
-        saveAndRender();
-        toggleForm();
-    }
-
-    function updateStatus(id, newStatus) {
-        const act = activities.find(a => a.id === id);
-        act.status = newStatus;
-        saveAndRender();
-    }
-
-    function deleteAct(id) {
-        if(confirm("¿Seguro que quieres eliminar esta actividad?")) {
-            activities = activities.filter(a => a.id !== id);
-            saveAndRender();
-        }
-    }
-
-    function saveAndRender() {
-        localStorage.setItem('vigiluz_data', JSON.stringify(activities));
-        render();
-    }
-
-    function render() {
-        const container = document.getElementById('activities-container');
-        container.innerHTML = '';
-        const today = new Date().toISOString().split('T')[0];
-        
-        let cumplidas = 0;
-
-        activities.forEach(a => {
-            if(a.status === 'cumplida') cumplidas++;
-
-            let colorClass = 'border-yellow';
-            if(a.status === 'pendiente' && today > a.end) colorClass = 'border-red';
-            if(a.status === 'cumplida') colorClass = 'border-green';
-
-            container.innerHTML += `
-                <div class="activity-card ${colorClass}">
-                    <div>
-                        <div style="font-weight: 600;">${a.name}</div>
-                        <div class="date-box">${a.start} | ${a.end}</div>
-                    </div>
-                    <div style="display: flex; gap: 10px;">
-                        <select onchange="updateStatus(${a.id}, this.value)">
-                            <option value="pendiente" ${a.status==='pendiente'?'selected':''}>Roja Pendiente</option>
-                            <option value="desarrollo" ${a.status==='desarrollo'?'selected':''}>Amarilla Desarrollo</option>
-                            <option value="cumplida" ${a.status==='cumplida'?'selected':''}>Verde Cumplida</option>
-                        </select>
-                        <button onclick="deleteAct(${a.id})" style="background:none; border:none; color:red; cursor:pointer;">🗑️</button>
-                    </div>
-                </div>
-            `;
-        });
-
-        // CALCULO DE PROGRESO
-        const total = activities.length;
-        const percent = total > 0 ? Math.round((cumplidas / total) * 100) : 0;
-        document.getElementById('main-fill').style.width = percent + '%';
-        document.getElementById('progreso-total').innerText = percent + '%';
-    }
-
-    render();
-</script>
 </body>
 </html>
