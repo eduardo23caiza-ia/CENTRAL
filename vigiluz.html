@@ -155,6 +155,26 @@
         </div>
     </header>
 
+    <section class="control-panel" style="margin-bottom: 20px;">
+    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+        <button class="btn-secondary" onclick="toggleMassiveLoad()" style="flex: 1;">
+            📥 CARGA MASIVA (TEXTO)
+        </button>
+        
+        <button id="edit-mode-btn" class="btn-secondary" onclick="toggleEditMode()" style="flex: 1;">
+            🔓 MODO EDICIÓN: OFF
+        </button>
+    </div>
+
+    <div id="massive-container" class="block-content" style="display:none; border-color: #00ccff;">
+        <label style="display: block; font-size: 0.8rem; margin-bottom: 10px;">Pega aquí tus tareas (Una por línea):</label>
+        <p style="font-size: 0.7rem; color: #888; margin-bottom: 10px;">Formato sugerido: Nombre - Bloque - Inicio - Fin</p>
+        <textarea id="massive-text" rows="5" style="width: 100%; background: #000; color: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 10px; box-sizing: border-box;"></textarea>
+        <button class="btn-block" style="background: #00ccff; color: #000; margin-top: 10px; justify-content: center;" onclick="processMassiveLoad()">
+            PROCESAR CARGA MASIVA ⚡
+        </button>
+    </div>
+</section>
 
     <section class="blocks-menu">
     <button class="btn-block" onclick="toggleBlock('A')">
