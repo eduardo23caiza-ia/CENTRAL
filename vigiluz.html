@@ -192,4 +192,21 @@
 </div>
 
 </body>
+    <script>
+    // FUNCIÓN PARA ABRIR Y CERRAR BLOQUES
+    function toggleBlock(blockId) {
+        // Buscamos el contenido y el icono por su nombre único (A, B, C o D)
+        const content = document.getElementById('content-' + blockId);
+        const icon = document.getElementById('icon-' + blockId);
+        
+        // Si el bloque está oculto, lo mostramos; si no, lo ocultamos
+        if (content.style.display === 'block') {
+            content.style.display = 'none';
+            icon.innerText = '➕';
+        } else {
+            content.style.display = 'block';
+            icon.innerText = '➖';
+        }
+    }
+</script>
 </html>
