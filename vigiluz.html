@@ -315,7 +315,7 @@
 
             // Construir la tarjeta de la actividad
             const cardHTML = `
-                <div class="activity-card ${semaforoClass}" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); margin-bottom: 8px; padding: 10px; border-radius: 8px;">
+                <div class="activity-card ${semaforoClass}" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); margin-bottom: 12px; padding: 10px; border-radius: 8px;">
                     <div>
                         <div style="font-weight: bold; font-size: 0.9rem;">${task.name}</div>
                         <div style="font-size: 0.7rem; color: #888;">${task.start} | ${task.end}</div>
@@ -362,6 +362,40 @@
 
     // EJECUTAR AL CARGAR LA PÁGINA PARA MOSTRAR DATOS GUARDADOS
     renderActivities();
+
+    function addTask() {
+    // 1. Capturamos los datos de los campos del formulario
+    const name = document.getElementById('taskName').value;
+    const block = document.getElementById('taskBlock').value;
+    const start = document.getElementById('taskStart').value;
+    const end = document.getElementById('taskEnd').value;
+
+    // 2. Validación simple: no dejamos guardar si falta el nombre o la fecha fin
+    if (!name || !end) {
+        return alert("Por favor, completa al menos el nombre y la fecha de cierre.");
+    }
+
+    // 3. Creamos el objeto de la nueva tarea
+    const newTask = {
+        id: Date.now(), // Genera un ID único basado en el tiempo
+        name: name,
+        block: block,
+        start: start,
+        end: end,
+        status: 'pendiente' // Todas inician en rojo/amarillo según fecha
+    };
+
+    // 4. La sumamos a nuestra lista de actividades
+    activities.push(newTask);
+
+    // 5. Guardamos en el navegador y redibujamos la pantalla
+    saveAndRender();
+
+    // 6. Limpiamos el formulario y lo cerramos para que se vea ordenado
+    document.getElementById('taskName').value = '';
+    toggleForm(); 
+    alert("¡Actividad agregada con éxito! 🚀");
+}
     
 </script>
 </body>
