@@ -375,6 +375,37 @@
         renderActivities();
     }
 
+
+    // 📥 FUNCIÓN PARA RECUPERAR NOMBRES DE BLOQUES
+function loadBlockNames() {
+    // Intentamos obtener los nombres guardados del localStorage
+    const savedNames = JSON.parse(localStorage.getItem('vigiluz_block_names'));
+    
+    // Si existen nombres guardados, los ponemos en cada bloque
+    if (savedNames) {
+        const blocks = ['A', 'B', 'C', 'D'];
+        blocks.forEach(id => {
+            const el = document.getElementById('title-' + id);
+            if (el && savedNames[id]) {
+                el.innerText = savedNames[id];
+            }
+        });
+    }
+}
+
+// 📤 FUNCIÓN PARA GUARDAR NOMBRES DE BLOQUES
+function saveBlockNames() {
+    const blockNames = {
+        'A': document.getElementById('title-A').innerText,
+        'B': document.getElementById('title-B').innerText,
+        'C': document.getElementById('title-C').innerText,
+        'D': document.getElementById('title-D').innerText
+    };
+    // Guardamos el objeto completo en el "disco duro" del navegador
+    localStorage.setItem('vigiluz_block_names', JSON.stringify(blockNames));
+    console.log("Nombres de bloques guardados ✅");
+}
+    
     // 5. LA FUNCIÓN QUE DIBUJA TODO EN LA PANTALLA
     function renderActivities() {
         // Limpiamos todos los contenedores antes de volver a dibujar
