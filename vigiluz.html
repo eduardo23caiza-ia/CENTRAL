@@ -397,39 +397,39 @@
     renderActivities();
 
     function addTask() {
-    // 1. Capturamos los datos de los campos del formulario
-    const name = document.getElementById('taskName').value;
-    const block = document.getElementById('taskBlock').value;
-    const start = document.getElementById('taskStart').value;
-    const end = document.getElementById('taskEnd').value;
+    // 1. Buscamos los elementos por su ID exacto
+    const nameInput = document.getElementById('taskName');
+    const blockInput = document.getElementById('taskBlock');
+    const endInput = document.getElementById('taskEnd');
 
-    // 2. Validación simple: no dejamos guardar si falta el nombre o la fecha fin
-    if (!name || !end) {
-        return alert("Por favor, completa al menos el nombre y la fecha de cierre.");
+    // 2. Verificamos que los datos no estén vacíos
+    if (!nameInput.value || !endInput.value) {
+        return alert("Error: El nombre y la fecha de cierre son obligatorios.");
     }
 
-    // 3. Creamos el objeto de la nueva tarea
+    // 3. Creamos la "tarjeta inteligente"
     const newTask = {
-        id: Date.now(), // Genera un ID único basado en el tiempo
-        name: name,
-        block: block,
-        start: start,
-        end: end,
-        status: 'pendiente' // Todas inician en rojo/amarillo según fecha
+        id: Date.now(),
+        name: nameInput.value,
+        block: blockInput.value.toUpperCase(), // Aseguramos que sea A, B, C o D
+        start: new Date().toISOString().split('T')[0], // Fecha de inicio automática (hoy)
+        end: endInput.value,
+        status: 'pendiente'
     };
 
-    // 4. La sumamos a nuestra lista de actividades
+    // 4. Inyectamos la tarea en la lista global
     activities.push(newTask);
 
-    // 5. Guardamos en el navegador y redibujamos la pantalla
+    // 5. Guardamos en memoria y redibujamos la pantalla
     saveAndRender();
 
-    // 6. Limpiamos el formulario y lo cerramos para que se vea ordenado
-    document.getElementById('taskName').value = '';
+    // 6. Limpieza: Borramos el texto escrito y cerramos el formulario
+    nameInput.value = '';
+    endInput.value = '';
     toggleForm(); 
-    alert("¡Actividad agregada con éxito! 🚀");
+    
+    console.log("Actividad guardada:", newTask); // Esto nos ayuda a ver si funcionó en la consola
 }
-
 
     function toggleForm() {
     const form = document.getElementById('form-container');
@@ -443,6 +443,9 @@
         icon.innerText = '➖';
     }
 }
+
+    
+
     
 </script>
 </body>
