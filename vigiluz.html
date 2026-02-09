@@ -128,6 +128,39 @@
     text-align: center;
     margin: 10px 0;
 }
+
+        ```css
+/* DISEÑO DE TARJETAS SUPERIORES (STATS GRID) */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-card label {
+    font-size: 0.65rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    font-family: 'Space Mono', monospace;
+}
+        
     </style>
 </head>
 <body>
@@ -228,51 +261,12 @@
     </button>
 </section> ```
 
----
 
-### 🎨 Mejorando el diseño según tu foto anexa (`image_91a222.png`)
-
-Para que tu dashboard se vea como el de la imagen de referencia que me enviaste, necesitamos implementar la **Stats Grid** (la fila de tarjetas superiores).
-
-#### 1. Estilos de las Tarjetas (CSS)
-Busca en tu archivo la etiqueta de cierre **`</style>`** (que se ve en la línea 131 de tu imagen `image_de8162.png`). Pega estos estilos justo **antes** de esa línea:
-
-```css
-/* DISEÑO DE TARJETAS SUPERIORES (STATS GRID) */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.stat-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 20px;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-}
-
-.stat-card label {
-    font-size: 0.65rem;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-}
-
-.stat-value {
-    font-size: 1.8rem;
-    font-weight: bold;
-    font-family: 'Space Mono', monospace;
-}
 </section>
 
     <section class="blocks-menu">
     <button class="btn-block" onclick="toggleBlock('A')">
-        <span>📦 BLOQUE A: Plataforma y Oferta</span>
+       <span>📦 <span contenteditable="true" onblur="saveBlockNames()" id="title-A">BLOQUE A: Plataforma y Oferta</span></span>
         <span id="icon-A">➕</span>
     </button>
     <div id="content-A" class="block-content">
