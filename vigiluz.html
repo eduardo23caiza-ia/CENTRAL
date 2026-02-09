@@ -155,6 +155,22 @@
         </div>
     </header>
 
+
+    <section class="stats-grid">
+    <div class="stat-card">
+        <label>Progreso General</label>
+        <div class="stat-value" id="stat-progreso">0%</div>
+    </div>
+    <div class="stat-card">
+        <label>Tareas Completadas</label>
+        <div class="stat-value" id="stat-tareas">0/0</div>
+    </div>
+    <div class="stat-card" style="border-right: 4px solid var(--danger);">
+        <label>Estado del Proyecto</label>
+        <div class="stat-value" id="stat-critico" style="color: var(--danger);">0 CRÍTICO</div>
+    </div>
+</section>
+    
     <section class="control-panel" style="margin-bottom: 20px;">
     <div style="display: flex; gap: 10px; margin-bottom: 15px;">
         <button class="btn-secondary" onclick="toggleMassiveLoad()" style="flex: 1;">
@@ -206,7 +222,52 @@
     </button>
 </div>
 
-        
+
+        <button class="btn-secondary" onclick="clearAllData()" style="width: 100%; margin-top: 10px; border-color: #ff3366; color: #ff3366;">
+        ⚠️ BORRAR TODAS LAS ACTIVIDADES
+    </button>
+</section> ```
+
+---
+
+### 🎨 Mejorando el diseño según tu foto anexa (`image_91a222.png`)
+
+Para que tu dashboard se vea como el de la imagen de referencia que me enviaste, necesitamos implementar la **Stats Grid** (la fila de tarjetas superiores).
+
+#### 1. Estilos de las Tarjetas (CSS)
+Busca en tu archivo la etiqueta de cierre **`</style>`** (que se ve en la línea 131 de tu imagen `image_de8162.png`). Pega estos estilos justo **antes** de esa línea:
+
+```css
+/* DISEÑO DE TARJETAS SUPERIORES (STATS GRID) */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-card label {
+    font-size: 0.65rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    font-family: 'Space Mono', monospace;
+}
 </section>
 
     <section class="blocks-menu">
@@ -444,6 +505,17 @@
     }
 }
 
+    function clearAllData() {
+    const confirm1 = confirm("¿Estás seguro de que quieres borrar ABSOLUTAMENTE TODO?");
+    if (confirm1) {
+        const confirm2 = confirm("ESTA ACCIÓN NO SE PUEDE DESHACER. ¿Proceder?");
+        if (confirm2) {
+            activities = []; // Vaciamos la lista en el código
+            saveAndRender(); // Guardamos la lista vacía en el navegador
+            alert("Dashboard reiniciado correctamente.");
+        }
+    }
+}
     
 
     
