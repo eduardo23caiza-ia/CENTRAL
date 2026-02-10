@@ -129,11 +129,11 @@
     margin: 10px 0;
 }
 
-        ```css
+        css
 /* DISEÑO DE TARJETAS SUPERIORES (STATS GRID) */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual tamaño */
     gap: 15px;
     margin-bottom: 25px;
 }
@@ -188,7 +188,7 @@
         </div>
     </header>
 
-
+//tarjetas o botones 3
     <section class="stats-grid">
     <div class="stat-card">
         <label>Progreso General</label>
@@ -198,10 +198,10 @@
         <label>Tareas Completadas</label>
         <div class="stat-value" id="stat-tareas">0/0</div>
     </div>
-    <div class="stat-card" style="border-right: 4px solid var(--danger);">
-        <label>Estado del Proyecto</label>
-        <div class="stat-value" id="stat-critico" style="color: var(--danger);">0 CRÍTICO</div>
-    </div>
+   <div class="stat-card" style="border-right: 4px solid var(--danger);">
+    <label>Estado del Proyecto</label>
+    <div class="stat-value" id="stat-critico" style="color: var(--danger);">--</div>
+</div>
 </section>
     
     <section class="control-panel" style="margin-bottom: 20px;">
@@ -259,6 +259,8 @@
         <button class="btn-secondary" onclick="clearAllData()" style="width: 100%; margin-top: 10px; border-color: #ff3366; color: #ff3366;">
         ⚠️ BORRAR TODAS LAS ACTIVIDADES
     </button>
+
+        
 </section> ```
 
 
@@ -458,11 +460,14 @@ function saveBlockNames() {
             if (container) container.innerHTML += cardHTML;
         });
 
-        // Actualizar la Barra de Progreso Maestra
-        const total = activities.length;
-        const porcentaje = total > 0 ? Math.round((totalVerdes / total) * 100) : 0;
-        document.getElementById('global-percent').innerText = porcentaje + '%';
-        document.getElementById('global-fill').style.width = porcentaje + '%';
+
+        // --- ACTUALIZACIÓN DE TARJETAS SUPERIORES ---
+const total = activities.length;
+const porcentaje = total > 0 ? Math.round((totalVerdes / total) * 100) : 0;
+
+// Inyectamos los valores en tus tarjetas
+document.getElementById('stat-progreso').innerText = porcentaje + "%";
+document.getElementById('stat-tareas').innerText = totalVerdes + "/" + total;
     }
 
     // FUNCIÓN PARA ACTUALIZAR ESTADO
