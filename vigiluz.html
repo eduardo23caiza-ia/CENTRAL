@@ -543,6 +543,32 @@ function saveBlockNames() {
 }
     
 
+    // --- BLOQUE DE INICIALIZACIÓN FINAL ---
+// Este código debe ir al final, después de todas las funciones.
+
+// 1. Cargamos los nombres de los bloques desde la memoria
+loadBlockNames(); 
+
+// 2. Calculamos los días restantes para la meta
+// Asegúrate de que la fecha coincida con tu cierre (28 de febrero)
+const fechaMeta = new Date("2026-02-28");
+const hoy = new Date();
+const diferencia = fechaMeta - hoy;
+const dias = Math.ceil(diferencia / (1000 * 60 * 60 * 24));
+
+const elCritico = document.getElementById('stat-critico');
+if (elCritico) {
+    if (dias > 0) {
+        elCritico.innerText = dias + " DÍAS";
+        elCritico.style.color = dias < 5 ? "#ff3366" : "#00ccff";
+    } else {
+        elCritico.innerText = "PLAZO VENCIDO";
+        elCritico.style.color = "#ff3366";
+    }
+}
+
+// 3. Finalmente, dibujamos todas las actividades en pantalla
+renderActivities();
     
 </script>
 </body>
