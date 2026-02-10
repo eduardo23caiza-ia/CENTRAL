@@ -133,7 +133,8 @@
 /* DISEÑO DE TARJETAS SUPERIORES (STATS GRID) */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual tamaño */
+    /* Cambiamos esto para forzar 3 columnas iguales */
+    grid-template-columns: 1fr 1fr 1fr; 
     gap: 15px;
     margin-bottom: 25px;
 }
@@ -461,13 +462,17 @@ function saveBlockNames() {
         });
 
 
-        // --- ACTUALIZACIÓN DE TARJETAS SUPERIORES ---
+       // --- ACTUALIZACIÓN DE TODO EL PROGRESO (TARJETAS Y BARRA) ---
 const total = activities.length;
 const porcentaje = total > 0 ? Math.round((totalVerdes / total) * 100) : 0;
 
-// Inyectamos los valores en tus tarjetas
+// 1. Actualiza las tarjetas nuevas
 document.getElementById('stat-progreso').innerText = porcentaje + "%";
 document.getElementById('stat-tareas').innerText = totalVerdes + "/" + total;
+
+// 2. RECONECTA LA BARRA DE PROGRESO ORIGINAL (Lo que se había quitado)
+document.getElementById('global-percent').innerText = porcentaje + "%";
+document.getElementById('global-fill').style.width = porcentaje + "%";
     }
 
     // FUNCIÓN PARA ACTUALIZAR ESTADO
@@ -567,7 +572,7 @@ const dias = Math.ceil(diferencia / (1000 * 60 * 60 * 24));
 const elCritico = document.getElementById('stat-critico');
 if (elCritico) {
     if (dias > 0) {
-        elCritico.innerText = dias + " DÍAS";
+        elCritico.innerText = "FALTAN " + dias + " DÍAS";
         elCritico.style.color = dias < 5 ? "#ff3366" : "#00ccff";
     } else {
         elCritico.innerText = "PLAZO VENCIDO";
