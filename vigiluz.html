@@ -265,34 +265,27 @@
 </section>
 
     <section class="blocks-menu">
-    <button class="btn-block" onclick="toggleBlock('A')">
-       <span>📦 <span contenteditable="true" onblur="saveBlockNames()" id="title-A">BLOQUE A: Plataforma y Oferta</span></span>
-        <span id="icon-A">➕</span>
-    </button>
-    <div id="content-A" class="block-content">
-        <p class="empty-msg">No hay actividades registradas en el Bloque A.</p>
-    </div>
 
-    <button class="btn-block" onclick="toggleBlock('B')">
-        <span>📦 <span contenteditable="true" onblur="saveBlockNames()" id="title-A">🌐 BLOQUE B: Página y Redes</span></span>   
-        <span id="icon-B">➕</span>
-    </button>
-    <div id="content-B" class="block-content">
-        <p class="empty-msg">No hay actividades registradas en el Bloque B.</p>
-    </div>
+        <button class="btn-block" onclick="toggleBlock('A')">
+   <span>📦 <span id="title-A" contenteditable="true" onblur="saveBlockNames()" onclick="event.stopPropagation()">BLOQUE A: Plataforma y Oferta</span></span>
+   <span id="icon-A">➕</span>
+</button>
 
-    <button class="btn-block" onclick="toggleBlock('C')">
-        <span>📦 <span contenteditable="true" onblur="saveBlockNames()" id="title-A">🎬 BLOQUE C: Contenido</span></span>
-        <span id="icon-C">➕</span>
-    </button>
-    <div id="content-C" class="block-content">
-        <p class="empty-msg">No hay actividades registradas en el Bloque C.</p>
-    </div>
+<button class="btn-block" onclick="toggleBlock('B')">
+   <span>🌐 <span id="title-B" contenteditable="true" onblur="saveBlockNames()" onclick="event.stopPropagation()">BLOQUE B: Página y Redes</span></span>
+   <span id="icon-B">➕</span>
+</button>
 
-    <button class="btn-block" onclick="toggleBlock('D')">
-         <span>📦 <span contenteditable="true" onblur="saveBlockNames()" id="title-A">📊 BLOQUE D: Anuncios y Medición</span></span>
-        <span id="icon-D">➕</span>
-    </button>
+<button class="btn-block" onclick="toggleBlock('C')">
+   <span>🎬 <span id="title-C" contenteditable="true" onblur="saveBlockNames()" onclick="event.stopPropagation()">BLOQUE C: Contenido</span></span>
+   <span id="icon-C">➕</span>
+</button>
+
+<button class="btn-block" onclick="toggleBlock('D')">
+   <span>📊 <span id="title-D" contenteditable="true" onblur="saveBlockNames()" onclick="event.stopPropagation()">BLOQUE D: Anuncios y Medición</span></span>
+   <span id="icon-D">➕</span>
+</button>
+        
     <div id="content-D" class="block-content">
         <p class="empty-msg">No hay actividades registradas en el Bloque D.</p>
     </div>
@@ -543,33 +536,7 @@ function saveBlockNames() {
 }
     
 
-    // --- BLOQUE DE INICIALIZACIÓN FINAL ---
-// Este código debe ir al final, después de todas las funciones.
-
-// 1. Cargamos los nombres de los bloques desde la memoria
-loadBlockNames(); 
-
-// 2. Calculamos los días restantes para la meta
-// Asegúrate de que la fecha coincida con tu cierre (28 de febrero)
-const fechaMeta = new Date("2026-02-28");
-const hoy = new Date();
-const diferencia = fechaMeta - hoy;
-const dias = Math.ceil(diferencia / (1000 * 60 * 60 * 24));
-
-const elCritico = document.getElementById('stat-critico');
-if (elCritico) {
-    if (dias > 0) {
-        elCritico.innerText = dias + " DÍAS";
-        elCritico.style.color = dias < 5 ? "#ff3366" : "#00ccff";
-    } else {
-        elCritico.innerText = "PLAZO VENCIDO";
-        elCritico.style.color = "#ff3366";
-    }
-}
-
-// 3. Finalmente, dibujamos todas las actividades en pantalla
-renderActivities();
-    
+   
 </script>
 </body>
     
