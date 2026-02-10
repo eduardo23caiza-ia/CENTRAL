@@ -266,29 +266,38 @@
 
     <section class="blocks-menu">
 
-        <button class="btn-block" onclick="toggleBlock('A')">
-   <span>📦 <span id="title-A" contenteditable="true" onblur="saveBlockNames()" onclick="event.stopPropagation()">BLOQUE A: Plataforma y Oferta</span></span>
-   <span id="icon-A">➕</span>
-</button>
+        <div class="block-header" style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+    <button class="btn-block" onclick="toggleBlock('A')" style="flex: 1; margin-bottom: 0;">
+        <span>📦 <span id="title-A" contenteditable="true" onblur="saveBlockNames()" onclick="event.stopPropagation()">BLOQUE A: Plataforma y Oferta</span></span>
+        <span id="icon-A">➕</span>
+    </button>
+</div>
+<div id="content-A" class="block-content"><p class="empty-msg">No hay actividades registradas.</p></div>
 
-<button class="btn-block" onclick="toggleBlock('B')">
-   <span>🌐 <span id="title-B" contenteditable="true" onblur="saveBlockNames()" onclick="event.stopPropagation()">BLOQUE B: Página y Redes</span></span>
-   <span id="icon-B">➕</span>
-</button>
+<div class="block-header" style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+    <button class="btn-block" onclick="toggleBlock('B')" style="flex: 1; margin-bottom: 0;">
+        <span>🌐 <span id="title-B" contenteditable="true" onblur="saveBlockNames()" onclick="event.stopPropagation()">BLOQUE B: Página y Redes</span></span>
+        <span id="icon-B">➕</span>
+    </button>
+</div>
+<div id="content-B" class="block-content"><p class="empty-msg">No hay actividades registradas.</p></div>
 
-<button class="btn-block" onclick="toggleBlock('C')">
-   <span>🎬 <span id="title-C" contenteditable="true" onblur="saveBlockNames()" onclick="event.stopPropagation()">BLOQUE C: Contenido</span></span>
-   <span id="icon-C">➕</span>
-</button>
+<div class="block-header" style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+    <button class="btn-block" onclick="toggleBlock('C')" style="flex: 1; margin-bottom: 0;">
+        <span>🎬 <span id="title-C" contenteditable="true" onblur="saveBlockNames()" onclick="event.stopPropagation()">BLOQUE C: Contenido</span></span>
+        <span id="icon-C">➕</span>
+    </button>
+</div>
+<div id="content-C" class="block-content"><p class="empty-msg">No hay actividades registradas.</p></div>
 
-<button class="btn-block" onclick="toggleBlock('D')">
-   <span>📊 <span id="title-D" contenteditable="true" onblur="saveBlockNames()" onclick="event.stopPropagation()">BLOQUE D: Anuncios y Medición</span></span>
-   <span id="icon-D">➕</span>
-</button>
+<div class="block-header" style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+    <button class="btn-block" onclick="toggleBlock('D')" style="flex: 1; margin-bottom: 0;">
+        <span>📊 <span id="title-D" contenteditable="true" onblur="saveBlockNames()" onclick="event.stopPropagation()">BLOQUE D: Anuncios y Medición</span></span>
+        <span id="icon-D">➕</span>
+    </button>
+</div>
+<div id="content-D" class="block-content"><p class="empty-msg">No hay actividades registradas.</p></div>
         
-    <div id="content-D" class="block-content">
-        <p class="empty-msg">No hay actividades registradas en el Bloque D.</p>
-    </div>
 </section>
 </div>
 <script>
