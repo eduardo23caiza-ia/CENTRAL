@@ -388,6 +388,7 @@ function loadBlockNames() {
 
 // 📤 FUNCIÓN PARA GUARDAR NOMBRES DE BLOQUES
 function saveBlockNames() {
+    console.log("Intentando guardar nombres..."); // Agrega esta línea
     const blockNames = {
         'A': document.getElementById('title-A').innerText,
         'B': document.getElementById('title-B').innerText,
@@ -396,7 +397,7 @@ function saveBlockNames() {
     };
     // Guardamos el objeto completo en el "disco duro" del navegador
     localStorage.setItem('vigiluz_block_names', JSON.stringify(blockNames));
-    console.log("Nombres de bloques guardados ✅");
+    console.log("Nombres de bloques guardados con exito ✅");
 }
     
     // 5. LA FUNCIÓN QUE DIBUJA TODO EN LA PANTALLA
