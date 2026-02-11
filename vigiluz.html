@@ -132,20 +132,23 @@
         css
 /* DISEÑO DE TARJETAS SUPERIORES (STATS GRID) */
 .stats-grid {
-    display: grid;
-    /* Cambiamos esto para forzar 3 columnas iguales */
-    grid-template-columns: repeat(3, 1fr); 
+    display: flex; /* Alineación horizontal */
+    justify-content: space-between; /* Espacio igual entre ellas */
     gap: 15px;
     margin-bottom: 25px;
+    width: 100%; /* Ocupa todo el ancho */
 }
 
 .stat-card {
+    flex: 1; /* Obliga a las 3 a medir lo mismo */
     background: var(--card);
     border: 1px solid var(--border);
     padding: 20px;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
+    align-items: center; /* Centra el contenido interno */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra profesional */
 }
 
 .stat-card label {
@@ -160,6 +163,31 @@
     font-size: 1.8rem;
     font-weight: bold;
     font-family: 'Space Mono', monospace;
+}
+
+
+        /* DISEÑO PROFESIONAL PARA BOTONES GRISES */
+.btn-secondary {
+    background: #333;           /* Color base 🌑 */
+    color: #fff;                /* Texto blanco ⚪ */
+    border: 1px solid #444;     /* Borde sutil 🖼️ */
+    padding: 12px 20px;         /* Tamaño cómodo ↕️ */
+    border-radius: 8px;         /* Esquinas suaves 📱 */
+    font-weight: bold;          /* Texto claro ✍️ */
+    cursor: pointer;            /* Mano al pasar el mouse 🖱️ */
+    display: flex;              /* Alineación de iconos 📏 */
+    align-items: center;
+    justify-content: center;
+    gap: 10px;                  /* Espacio entre icono y texto ↔️ */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Sombra de profundidad 🏔️ */
+    transition: all 0.3s ease;  /* Movimiento suave ✨ */
+}
+
+/* Efecto al pasar el mouse */
+.btn-secondary:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8); /* La sombra crece 🎈 */
+    background: #444;           /* Se ilumina un poco 💡 */
+    transform: translateY(-2px); /* El botón sube ligeramente 🚀 */
 }
         
     </style>
@@ -189,7 +217,7 @@
         </div>
     </header>
 
-/* tarjetas o botones 3 */
+
     <section class="stats-grid">
     <div class="stat-card">
         <label>Progreso General</label>
@@ -207,13 +235,13 @@
     
     <section class="control-panel" style="margin-bottom: 20px;">
     <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-        <button class="btn-secondary" onclick="toggleMassiveLoad()" style="flex: 1;">
-            📥 CARGA MASIVA (TEXTO)
-        </button>
+        <button class="btn-secondary" onclick="toggleMassiveLoad()">
+    📊 CARGA MASIVA (TEXTO)
+</button>
         
-        <button id="edit-mode-btn" class="btn-secondary" onclick="toggleEditMode()" style="flex: 1;">
-            🔓 MODO EDICIÓN: OFF
-        </button>
+        <button id="edit-mode-btn" class="btn-secondary" onclick="toggleEditMode()">
+    🔐 MODO EDICIÓN: OFF
+</button>
     </div>
 
     <div id="massive-container" class="block-content" style="display:none; border-color: #00ccff;">
@@ -225,8 +253,8 @@
         </button>
     </div>
 
-        <button class="btn-toggle-form" onclick="toggleForm()" style="margin-top: 15px; background: var(--accent); color: var(--bg); border: none;">
-    <span id="form-icon">➕</span> GESTIONAR NUEVA ACTIVIDAD
+        <button class="btn-toggle-form" onclick="toggleForm()" style="display: block; width: 90%; margin: 25px auto; padding: 18px; font-size: 1.1rem; font-weight: bold; background: var(--accent); color: var(--bg); border: none; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 204, 255, 0.5); cursor: pointer;">
+   <span id="form-icon">➕</span> GESTIONAR NUEVA ACTIVIDAD
 </button>
 
 <div id="form-container" class="block-content" style="display:none; border-color: var(--accent); margin-top: 15px;">
@@ -262,7 +290,7 @@
     </button>
 
         
-</section> ```
+</section> 
 
 
 </section>
